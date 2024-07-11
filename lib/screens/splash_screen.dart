@@ -1,5 +1,7 @@
+import 'package:cat_break/providers/cat_provider.dart';
 import 'package:cat_break/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,13 +11,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Future<void> _fetchCatsBreeds() async {
+    await Provider.of<CatProvider>(context, listen: false).fetchCatBreeds();
+
+    if (mounted) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-    });
+    _fetchCatsBreeds();
   }
 
   @override
