@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:cat_break/models/cat_model.dart';
 import 'package:cat_break/models/catbreed_model.dart';
 import 'package:cat_break/services/cat_api_service.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,10 @@ import 'package:flutter/material.dart';
 class CatProvider extends ChangeNotifier {
   final CatAPIService _apiService = CatAPIService();
   List<CatBreed> _catBreeds = [];
-  List<dynamic> _catsByBreed = [];
+  List<Cat> _catsByBreed = [];
 
   List<CatBreed> get catBreeds => _catBreeds;
-  List<dynamic> get catsByBreed => _catsByBreed;
+  List<Cat> get catsByBreed => _catsByBreed;
 
   Future<void> fetchCatBreeds() async {
     try {
@@ -29,12 +30,16 @@ class CatProvider extends ChangeNotifier {
     try {
       print("Fetching cats by breed with ID: $breedId...");
       final catsJson = await _apiService.getCatsByBreed(breedId);
-      _catsByBreed = catsJson;
+      _catsByBreed = catsJson.map((json) => Cat.fromJson(json)).toList();
       print("Fetched ${_catsByBreed.length} cats for breed ID: $breedId.");
       notifyListeners();
     } catch (e) {
       print("Error fetching cats by breed: $e");
-      throw Exception("Couldn't fetch cats by breed in provider");
+      throw Exception("\nCouldn't fetch cats by breed in provider");
     }
+  }
+
+  clearCatsList() {
+    _catsByBreed.clear();
   }
 }

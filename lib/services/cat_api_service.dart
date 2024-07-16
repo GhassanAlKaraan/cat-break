@@ -44,7 +44,7 @@ class CatAPIService {
 
     if (response.statusCode == 200) {
       var jsonResponse =
-          json.decode(response.body) as List<Map<String, dynamic>>;
+          json.decode(response.body) as List;
       return jsonResponse;
     } else {
       throw Exception('Failed to get cats by breed');

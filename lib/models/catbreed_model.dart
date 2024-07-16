@@ -6,6 +6,7 @@ class CatBreed {
   String? description;
   int? intelligence;
   String? referenceImageId;
+  int? energyLevel;
 
   CatBreed(
       {this.id,
@@ -14,7 +15,9 @@ class CatBreed {
       this.origin,
       this.description,
       this.intelligence,
-      this.referenceImageId});
+      this.referenceImageId,
+      this.energyLevel
+      });
 
   CatBreed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,6 +27,7 @@ class CatBreed {
     description = json['description'];
     intelligence = json['intelligence'];
     referenceImageId = json['reference_image_id'];
+    energyLevel = json['energy_level'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +39,7 @@ class CatBreed {
     data['description'] = description;
     data['intelligence'] = intelligence;
     data['reference_image_id'] = referenceImageId;
+    data['energy_level'] = energyLevel;
     return data;
   }
 }
@@ -47,8 +52,7 @@ class CatBreed {
 //     "name": "Abyssinian",
 //     "temperament": "Active, Energetic, Independent, Intelligent, Gentle",
 //     "origin": "Egypt",
-//     "description": "The Abyssinian is easy to care for, and a joy to have in your home. They’re affectionate cats and love both people and other animals.",
+//     "description": "The Abyssinian is easy to care for, and a joy to have in your home. They're affectionate cats and love both people and other animals.",
 //     "intelligence": 5,
 //     "reference_image_id": "0XYvRd7oD"
 // }
-

@@ -1,99 +1,142 @@
+import 'package:cat_break/models/catbreed_model.dart';
 import 'package:flutter/material.dart';
 
 class CatInfoScreen extends StatelessWidget {
-  const CatInfoScreen({super.key});
+  const CatInfoScreen({super.key, required this.breed, required this.imageUrl});
+
+  final CatBreed breed;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.pink.shade50,
-        body: Padding(
-          padding: const EdgeInsets.all(14.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "<<< go back",
-                      style: TextStyle(fontSize: 40),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          "<<< back to cats",
+                          style: TextStyle(fontSize: 40),
+                        ),
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Image.asset(
+                          'assets/icons/cat.png',
+                          color: Colors.black,
+                          width: 70,
+                        ),
+                      ),
+                    ],
                   ),
-                  const Spacer(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    color: Colors.pink.shade800,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Image.asset(
-                      'assets/icons/cat.png',
-                      color: Colors.black,
-                      width: 70,
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.pink.shade800, width: 5),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.pink.shade900)),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(child: Icon(Icons.error));
+                        },
+                      ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.pink.shade800,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.pink.shade800, width: 5),
-                    borderRadius: BorderRadius.circular(12),
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Cat Name",
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                        "${breed.name} Cat",
+                        style: const TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(height: 20),
+                      Text(
+                        "${breed.temperament}",
+                        style:
+                            TextStyle(color: Colors.pink.shade700, fontSize: 22),
+                      ),
+                      const SizedBox(
                         height: 20,
                       ),
                       Text(
-                        "Cat Description",
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                        "${breed.description}",
+                        style: const TextStyle(fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Intelligence",
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                                text: "Intelligence: ",
+                                style: TextStyle(fontSize: 25)),
+                            TextSpan(
+                              text: "${breed.intelligence}/5",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.pink.shade700), // Set color here
+                            ),
+                            const TextSpan(
+                                text: "\nEnergy level: ",
+                                style: TextStyle(fontSize: 25)),
+                            TextSpan(
+                              text: "${breed.energyLevel }/5",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.pink.shade700), // Set color here
+                            ),
+                            const TextSpan(
+                                text: "\nOrigin: ",
+                                style: TextStyle(fontSize: 25)),
+                            TextSpan(
+                              text: "${breed.origin}",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.blue.shade400), // Set color here
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Breed Info",
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      )
                     ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ));
   }
